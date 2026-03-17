@@ -71,7 +71,7 @@ export function MessageInput({ onSend, onStop, isLoading, disabled, prefill, con
             disabled={disabled}
             placeholder="Message… (Shift+Enter for new line)"
             rows={1}
-            className="flex-1 bg-transparent text-gray-200 placeholder-gray-600 text-sm resize-none focus:outline-none leading-relaxed max-h-48 overflow-y-auto"
+            className="flex-1 bg-transparent text-gray-200 placeholder-gray-500 text-sm resize-none focus:outline-none leading-relaxed max-h-48 overflow-y-auto"
           />
 
           {/* Send / Stop */}

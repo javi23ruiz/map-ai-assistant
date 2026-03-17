@@ -1,15 +1,17 @@
-import { PanelLeftOpen } from 'lucide-react'
+import { PanelLeftOpen, Sun, Moon } from 'lucide-react'
 import type { Conversation } from '../types'
 
 interface Props {
   conversation: Conversation | null
   sidebarOpen: boolean
   onExpandSidebar: () => void
+  theme: 'dark' | 'light'
+  onToggleTheme: () => void
 }
 
-export function Header({ conversation, sidebarOpen, onExpandSidebar }: Props) {
+export function Header({ conversation, sidebarOpen, onExpandSidebar, theme, onToggleTheme }: Props) {
   return (
-    <header className="flex items-center gap-3 px-6 py-3 border-b border-white/6 bg-surface-950/50 backdrop-blur-sm">
+    <header className="flex items-center gap-3 px-6 py-3 border-b section-divider bg-surface-950/50 backdrop-blur-sm">
       {!sidebarOpen && (
         <button
           onClick={onExpandSidebar}
@@ -27,6 +29,16 @@ export function Header({ conversation, sidebarOpen, onExpandSidebar }: Props) {
           {conversation.model}
         </span>
       )}
+
+      <div className="ml-auto">
+        <button
+          onClick={onToggleTheme}
+          className="p-1.5 rounded-lg text-gray-400 hover:text-gray-200 hover:bg-white/8 transition-colors"
+          title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+        </button>
+      </div>
     </header>
   )
 }

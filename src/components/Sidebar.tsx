@@ -68,9 +68,9 @@ export function Sidebar({
   const groups = groupByDate(unpinned)
 
   return (
-    <aside className="flex flex-col w-64 bg-surface-950 border-r border-white/6 h-full">
+    <aside className="flex flex-col w-64 bg-surface-950 sidebar-edge h-full">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-4 border-b border-white/6">
+      <div className="flex items-center justify-between px-4 py-4 border-b section-divider">
         <div className="flex items-center gap-2">
           <button
             onClick={onCollapse}
@@ -91,13 +91,13 @@ export function Sidebar({
       </div>
 
       {/* Model selector */}
-      <div className="px-3 py-3 border-b border-white/6">
+      <div className="px-3 py-3 border-b section-divider">
         <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-2 px-1">Model</p>
         <ModelSelector models={models} selected={selectedModel} onChange={onModelChange} />
       </div>
 
       {/* Search */}
-      <div className="px-3 py-2 border-b border-white/6">
+      <div className="px-3 py-2 border-b section-divider">
         <div className="flex items-center gap-2 bg-white/5 rounded-lg px-2.5 py-1.5">
           <Search size={12} className="text-gray-500 flex-shrink-0" />
           <input
@@ -105,7 +105,7 @@ export function Sidebar({
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search conversations…"
-            className="flex-1 text-xs bg-transparent text-gray-300 placeholder-gray-600 outline-none min-w-0"
+            className="flex-1 text-xs bg-transparent text-gray-300 placeholder-gray-500 outline-none min-w-0"
           />
           {search && (
             <button onClick={() => setSearch('')} className="text-gray-600 hover:text-gray-400 transition-colors">
@@ -163,7 +163,7 @@ export function Sidebar({
       </div>
 
       {/* Settings */}
-      <div className="border-t border-white/6">
+      <div className="border-t section-divider">
         <button
           onClick={() => setShowSettings(v => !v)}
           className="w-full flex items-center gap-2 px-4 py-3 text-sm text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-colors"
@@ -178,7 +178,7 @@ export function Sidebar({
               value={systemPrompt}
               onChange={e => onSystemPromptChange(e.target.value)}
               rows={4}
-              className="w-full text-xs bg-surface-900 border border-white/10 rounded-lg px-3 py-2 text-gray-300 placeholder-gray-600 resize-none focus:outline-none focus:border-accent-500/50 transition-colors"
+              className="w-full text-xs bg-surface-900 border border-white/10 rounded-lg px-3 py-2 text-gray-300 placeholder-gray-500 resize-none focus:outline-none focus:border-accent-500/50 transition-colors"
               placeholder="System prompt…"
             />
           </div>
@@ -190,7 +190,7 @@ export function Sidebar({
 
 function SectionLabel({ label }: { label: string }) {
   return (
-    <p className="text-[10px] uppercase tracking-widest text-gray-600 px-2 pt-2 pb-0.5 select-none">
+    <p className="text-[10px] uppercase tracking-widest text-gray-500 px-2 pt-2 pb-0.5 select-none">
       {label}
     </p>
   )
@@ -245,7 +245,7 @@ function ConversationItem({
     <div
       onClick={() => { if (!renaming) onSelect() }}
       className={`group relative flex items-center gap-2 px-2 py-2 rounded-lg cursor-pointer transition-colors ${
-        active ? 'bg-accent-500/15 text-gray-100' : 'text-gray-400 hover:bg-white/5 hover:text-gray-200'
+        active ? 'bg-accent-500/15 text-gray-100' : 'text-gray-300 hover:bg-white/5 hover:text-gray-100'
       }`}
     >
       <MessageSquare size={13} className="flex-shrink-0" />

@@ -30,6 +30,15 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [prefill, setPrefill] = useState<string>('')
   const [prefillKey, setPrefillKey] = useState(0)
+  const [theme, setTheme] = useState<'dark' | 'light'>(() =>
+    (localStorage.getItem('theme') as 'dark' | 'light') || 'dark'
+  )
+
+  useEffect(() => {
+    const root = document.documentElement
+    root.classList.toggle('light', theme === 'light')
+    localStorage.setItem('theme', theme)
+  }, [theme])
 
   useEffect(() => { fetchModels() }, [fetchModels])
 
@@ -72,6 +81,8 @@ export default function App() {
             conversation={activeConversation}
             sidebarOpen={sidebarOpen}
             onExpandSidebar={() => setSidebarOpen(true)}
+            theme={theme}
+            onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
           />
           <ChatWindow
             conversation={activeConversation}

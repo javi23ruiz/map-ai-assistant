@@ -24,7 +24,7 @@ function CopyButton({ text }: { text: string }) {
     <span className="inline-flex items-center gap-1">
       <button
         onClick={copy}
-        className="p-1 rounded text-gray-500 hover:text-gray-300 hover:bg-white/10 transition-colors"
+        className="p-1 rounded text-gray-400 hover:text-gray-300 hover:bg-white/10 transition-colors"
         title="Copy message"
       >
         <Copy size={13} />
@@ -117,17 +117,17 @@ export function MessageBubble({ message, isLast, onRegenerate, onEdit }: Props) 
               isUser ? 'flex-row-reverse' : ''
             }`}
           >
-            <span className="text-[10px] text-gray-500">
+            <span className="text-[10px] text-gray-400">
               {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </span>
             {!isUser && message.model && (
-              <span className="text-[10px] text-gray-500">{message.model}</span>
+              <span className="text-[10px] text-gray-400">{message.model}</span>
             )}
             <CopyButton text={message.content} />
             {isLast && isUser && onEdit && (
               <button
                 onClick={onEdit}
-                className="p-1 rounded text-gray-500 hover:text-gray-300 hover:bg-white/10 transition-colors"
+                className="p-1 rounded text-gray-400 hover:text-gray-300 hover:bg-white/10 transition-colors"
                 title="Edit message"
               >
                 <Pencil size={13} />
@@ -136,14 +136,14 @@ export function MessageBubble({ message, isLast, onRegenerate, onEdit }: Props) 
             {isLast && !isUser && onRegenerate && (
               <button
                 onClick={onRegenerate}
-                className="p-1 rounded text-gray-500 hover:text-gray-300 hover:bg-white/10 transition-colors"
+                className="p-1 rounded text-gray-400 hover:text-gray-300 hover:bg-white/10 transition-colors"
                 title="Regenerate response"
               >
                 <RefreshCw size={13} />
               </button>
             )}
             {message.usage && !isUser && (
-              <span className="text-[10px] text-gray-600">
+              <span className="text-[10px] text-gray-500">
                 {message.usage.input_tokens}↑ {message.usage.output_tokens}↓
               </span>
             )}
