@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#6366f1"/>
+
+  <!-- Speaker cone -->
+  <path d="M18 24h6l12-9v34l-12-9H18a2 2 0 0 1-2-2V26a2 2 0 0 1 2-2z"
+        fill="white" opacity="0.95"/>
+
+  <!-- Sound waves -->
+  <path d="M40 24.5a11 11 0 0 1 0 15" stroke="white" stroke-width="2.8"
+        stroke-linecap="round" fill="none" opacity="0.9"/>
+  <path d="M44 20a17 17 0 0 1 0 24" stroke="white" stroke-width="2.8"
+        stroke-linecap="round" fill="none" opacity="0.5"/>
+</svg>
