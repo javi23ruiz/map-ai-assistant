@@ -4,13 +4,13 @@ import type { Conversation } from '../types'
 interface Props {
   conversation: Conversation | null
   sidebarOpen: boolean
-  showAnalytics: boolean
+  activeView: 'chat' | 'analytics' | 'map'
   onExpandSidebar: () => void
   theme: 'dark' | 'light'
   onToggleTheme: () => void
 }
 
-export function Header({ conversation, sidebarOpen, showAnalytics, onExpandSidebar, theme, onToggleTheme }: Props) {
+export function Header({ conversation, sidebarOpen, activeView, onExpandSidebar, theme, onToggleTheme }: Props) {
   return (
     <header className="flex items-center gap-3 px-6 py-3 border-b section-divider bg-surface-950/50 backdrop-blur-sm">
       {!sidebarOpen && (
@@ -22,7 +22,7 @@ export function Header({ conversation, sidebarOpen, showAnalytics, onExpandSideb
           <PanelLeftOpen size={15} />
         </button>
       )}
-      {!showAnalytics && (
+      {activeView === 'chat' && (
         <>
           <span className="text-sm font-medium text-gray-300 truncate max-w-xs">
             {conversation?.title ?? 'New Conversation'}

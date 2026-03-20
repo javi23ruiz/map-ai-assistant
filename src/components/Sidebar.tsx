@@ -1,4 +1,4 @@
-import { Plus, MessageSquare, Settings, MoreHorizontal, Pencil, Pin, PinOff, Trash2, Search, X, PanelLeftClose, BarChart2 } from 'lucide-react'
+import { Plus, MessageSquare, Settings, MoreHorizontal, Pencil, Pin, PinOff, Trash2, Search, X, PanelLeftClose, BarChart2, Map as MapIcon } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { ModelSelector } from './ModelSelector'
 import type { Conversation, ModelInfo } from '../types'
@@ -9,7 +9,7 @@ interface Props {
   models: ModelInfo[]
   selectedModel: string
   systemPrompt: string
-  showAnalytics: boolean
+  activeView: 'chat' | 'analytics' | 'map'
   onNew: () => void
   onSelect: (id: string) => void
   onDelete: (id: string) => void
@@ -18,7 +18,7 @@ interface Props {
   onModelChange: (id: string) => void
   onSystemPromptChange: (v: string) => void
   onCollapse: () => void
-  onToggleAnalytics: () => void
+  onSetView: (view: 'chat' | 'analytics' | 'map') => void
 }
 
 function getDateLabel(date: Date): string {
@@ -49,7 +49,7 @@ export function Sidebar({
   models,
   selectedModel,
   systemPrompt,
-  showAnalytics,
+  activeView,
   onNew,
   onSelect,
   onDelete,
@@ -58,7 +58,7 @@ export function Sidebar({
   onModelChange,
   onSystemPromptChange,
   onCollapse,
-  onToggleAnalytics,
+  onSetView,
 }: Props) {
   const [showSettings, setShowSettings] = useState(false)
   const [search, setSearch] = useState('')
@@ -166,12 +166,27 @@ export function Sidebar({
         )}
       </div>
 
+      {/* OpenStreetMap */}
+      <div className="border-t section-divider">
+        <button
+          onClick={() => onSetView(activeView === 'map' ? 'chat' : 'map')}
+          className={`w-full flex items-center gap-2 px-4 py-3 text-sm transition-colors ${
+            activeView === 'map'
+              ? 'text-accent-400 bg-accent-500/10'
+              : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
+          }`}
+        >
+          <MapIcon size={14} />
+          <span>OpenStreetMap</span>
+        </button>
+      </div>
+
       {/* Analytics */}
       <div className="border-t section-divider">
         <button
-          onClick={onToggleAnalytics}
+          onClick={() => onSetView(activeView === 'analytics' ? 'chat' : 'analytics')}
           className={`w-full flex items-center gap-2 px-4 py-3 text-sm transition-colors ${
-            showAnalytics
+            activeView === 'analytics'
               ? 'text-accent-400 bg-accent-500/10'
               : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
           }`}

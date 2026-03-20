@@ -5,6 +5,7 @@ import { ChatWindow } from './components/ChatWindow'
 import { MessageInput } from './components/MessageInput'
 import { ToastProvider } from './components/Toast'
 import { AnalyticsDashboard } from './components/AnalyticsDashboard'
+import { OpenStreetMapView } from './components/OpenStreetMapView'
 import { useChat } from './hooks/useChat'
 
 export default function App() {
@@ -31,7 +32,7 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [prefill, setPrefill] = useState<string>('')
   const [prefillKey, setPrefillKey] = useState(0)
-  const [showAnalytics, setShowAnalytics] = useState(false)
+  const [activeView, setActiveView] = useState<'chat' | 'analytics' | 'map'>('chat')
   const [theme, setTheme] = useState<'dark' | 'light'>(() =>
     (localStorage.getItem('theme') as 'dark' | 'light') || 'dark'
   )
@@ -67,16 +68,16 @@ export default function App() {
             models={models}
             selectedModel={selectedModel}
             systemPrompt={systemPrompt}
-            showAnalytics={showAnalytics}
-            onNew={() => { setActiveConversationId(null); setShowAnalytics(false) }}
-            onSelect={id => { setActiveConversationId(id); setShowAnalytics(false) }}
+            activeView={activeView}
+            onNew={() => { setActiveConversationId(null); setActiveView('chat') }}
+            onSelect={id => { setActiveConversationId(id); setActiveView('chat') }}
             onDelete={deleteConversation}
             onRename={renameConversation}
             onPin={pinConversation}
             onModelChange={setSelectedModel}
             onSystemPromptChange={setSystemPrompt}
             onCollapse={() => setSidebarOpen(false)}
-            onToggleAnalytics={() => setShowAnalytics(v => !v)}
+            onSetView={setActiveView}
           />
         )}
 
@@ -84,13 +85,26 @@ export default function App() {
           <Header
             conversation={activeConversation}
             sidebarOpen={sidebarOpen}
-            showAnalytics={showAnalytics}
+            activeView={activeView}
             onExpandSidebar={() => setSidebarOpen(true)}
             theme={theme}
             onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
           />
-          {showAnalytics ? (
+          {activeView === 'analytics' ? (
             <AnalyticsDashboard conversations={conversations} theme={theme} />
+          ) : activeView === 'map' ? (
+            <OpenStreetMapView
+              conversation={activeConversation}
+              isLoading={isLoading}
+              theme={theme}
+              activeConversationId={activeConversationId}
+              prefill={prefill}
+              prefillKey={prefillKey}
+              onSend={sendMessage}
+              onStop={stopStreaming}
+              onRegenerate={handleRegenerate}
+              onEdit={handleEdit}
+            />
           ) : (
             <>
               <ChatWindow
