@@ -1,4 +1,4 @@
-import { Plus, MessageSquare, Settings, MoreHorizontal, Pencil, Pin, PinOff, Trash2, Search, X, PanelLeftClose } from 'lucide-react'
+import { Plus, MessageSquare, Settings, MoreHorizontal, Pencil, Pin, PinOff, Trash2, Search, X, PanelLeftClose, BarChart2 } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { ModelSelector } from './ModelSelector'
 import type { Conversation, ModelInfo } from '../types'
@@ -9,6 +9,7 @@ interface Props {
   models: ModelInfo[]
   selectedModel: string
   systemPrompt: string
+  showAnalytics: boolean
   onNew: () => void
   onSelect: (id: string) => void
   onDelete: (id: string) => void
@@ -17,6 +18,7 @@ interface Props {
   onModelChange: (id: string) => void
   onSystemPromptChange: (v: string) => void
   onCollapse: () => void
+  onToggleAnalytics: () => void
 }
 
 function getDateLabel(date: Date): string {
@@ -47,6 +49,7 @@ export function Sidebar({
   models,
   selectedModel,
   systemPrompt,
+  showAnalytics,
   onNew,
   onSelect,
   onDelete,
@@ -55,6 +58,7 @@ export function Sidebar({
   onModelChange,
   onSystemPromptChange,
   onCollapse,
+  onToggleAnalytics,
 }: Props) {
   const [showSettings, setShowSettings] = useState(false)
   const [search, setSearch] = useState('')
@@ -160,6 +164,21 @@ export function Sidebar({
             ))}
           </>
         )}
+      </div>
+
+      {/* Analytics */}
+      <div className="border-t section-divider">
+        <button
+          onClick={onToggleAnalytics}
+          className={`w-full flex items-center gap-2 px-4 py-3 text-sm transition-colors ${
+            showAnalytics
+              ? 'text-accent-400 bg-accent-500/10'
+              : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
+          }`}
+        >
+          <BarChart2 size={14} />
+          <span>Analytics</span>
+        </button>
       </div>
 
       {/* Settings */}

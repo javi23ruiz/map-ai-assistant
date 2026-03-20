@@ -4,6 +4,7 @@ import { Header } from './components/Header'
 import { ChatWindow } from './components/ChatWindow'
 import { MessageInput } from './components/MessageInput'
 import { ToastProvider } from './components/Toast'
+import { AnalyticsDashboard } from './components/AnalyticsDashboard'
 import { useChat } from './hooks/useChat'
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [prefill, setPrefill] = useState<string>('')
   const [prefillKey, setPrefillKey] = useState(0)
+  const [showAnalytics, setShowAnalytics] = useState(false)
   const [theme, setTheme] = useState<'dark' | 'light'>(() =>
     (localStorage.getItem('theme') as 'dark' | 'light') || 'dark'
   )
@@ -65,14 +67,16 @@ export default function App() {
             models={models}
             selectedModel={selectedModel}
             systemPrompt={systemPrompt}
-            onNew={() => setActiveConversationId(null)}
-            onSelect={setActiveConversationId}
+            showAnalytics={showAnalytics}
+            onNew={() => { setActiveConversationId(null); setShowAnalytics(false) }}
+            onSelect={id => { setActiveConversationId(id); setShowAnalytics(false) }}
             onDelete={deleteConversation}
             onRename={renameConversation}
             onPin={pinConversation}
             onModelChange={setSelectedModel}
             onSystemPromptChange={setSystemPrompt}
             onCollapse={() => setSidebarOpen(false)}
+            onToggleAnalytics={() => setShowAnalytics(v => !v)}
           />
         )}
 
@@ -80,25 +84,33 @@ export default function App() {
           <Header
             conversation={activeConversation}
             sidebarOpen={sidebarOpen}
+            showAnalytics={showAnalytics}
             onExpandSidebar={() => setSidebarOpen(true)}
             theme={theme}
             onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
           />
-          <ChatWindow
-            conversation={activeConversation}
-            isLoading={isLoading}
-            onSend={sendMessage}
-            onRegenerate={handleRegenerate}
-            onEdit={handleEdit}
-          />
-          <MessageInput
-            onSend={sendMessage}
-            onStop={stopStreaming}
-            isLoading={isLoading}
-            prefill={prefill}
-            key={prefillKey}
-            conversationId={activeConversationId}
-          />
+          {showAnalytics ? (
+            <AnalyticsDashboard conversations={conversations} theme={theme} />
+          ) : (
+            <>
+              <ChatWindow
+                conversation={activeConversation}
+                isLoading={isLoading}
+                theme={theme}
+                onSend={sendMessage}
+                onRegenerate={handleRegenerate}
+                onEdit={handleEdit}
+              />
+              <MessageInput
+                onSend={sendMessage}
+                onStop={stopStreaming}
+                isLoading={isLoading}
+                prefill={prefill}
+                key={prefillKey}
+                conversationId={activeConversationId}
+              />
+            </>
+          )}
         </main>
       </div>
     </ToastProvider>
